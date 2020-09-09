@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import model.DatesAndCurrency;
 import model.Tecajnica;
 import xmlreader.ModelBuilder;
-import xmlreader.ReadXML;
 
 @Configuration
 public class ApplicationConfig {
@@ -21,10 +20,10 @@ public class ApplicationConfig {
 		return new DatesAndCurrency();
 	}
 	
-	@Bean
-	public ReadXML reader() {
-		return new ReadXML();
-	}
+//	@Bean
+//	public ReadXML reader() {
+//		return new ReadXML();
+//	}
 	
 	@Bean
 	public ModelBuilder mb() {

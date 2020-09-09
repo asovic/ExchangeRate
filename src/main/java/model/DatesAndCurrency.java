@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
-
-import xmlreader.ModelBuilder;
-
 public class DatesAndCurrency {
 	
 	private List<String> dates = new ArrayList<String>();

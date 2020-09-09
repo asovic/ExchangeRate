@@ -1,5 +1,6 @@
 package com.andrej.rates;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -21,16 +22,12 @@ import graphing.Graph;
 import model.DatesAndCurrency;
 import model.Tecajnica;
 import xmlreader.ModelBuilder;
-import xmlreader.ReadXML;
 
 @Controller
 public class RatesController {
 	
 	@Autowired
 	private ApplicationContext context;
-
-	@Autowired
-	ReadXML xml;
 
 	@Autowired
 	Tecajnica tecajnica;
@@ -44,6 +41,15 @@ public class RatesController {
 	public String getIndex(Model model) {
 		ModelBuilder mb = new ModelBuilder();
 		dc = mb.getAllDates();
+		List<String> dates = dc.getDates();
+		List<String> valute = dc.getCurrency();
+		model.addAttribute("dates", dates);
+		model.addAttribute("valute", valute);
+		return "index";
+	}
+	
+	@GetMapping(value = "/index")
+	public String nonRefreshIndex(Model model) {
 		List<String> dates = dc.getDates();
 		List<String> valute = dc.getCurrency();
 		model.addAttribute("dates", dates);
@@ -96,8 +102,10 @@ public class RatesController {
 		return "OCresult";
 	}
 	
-	@GetMapping(value="/exit")
+	@GetMapping(value="/quit")
 	public void shutdown() {
+		File graph_file = new File("chart.png");
+		graph_file.deleteOnExit();
 		int exitCode = SpringApplication.exit(context, (ExitCodeGenerator) () -> 0);
 		System.exit(exitCode);
 	}

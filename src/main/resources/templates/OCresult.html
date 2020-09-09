@@ -1,34 +1,177 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
-<style>
-.center {
-	margin: auto;
-	width: 60%;
-	border: 3px solid #73AD21;
-	padding: 10px;
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+<style type="text/css">
+#container{
+  width:45%;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  }
+#left{
+  flex: 1;
+  display: table-cell;
+  float:left;
+  width:25%;
+  background: white;
+  height: auto;
+  margin:0 auto;
+  }
+#right{
+  display: table-cell;
+  float:right;
+  width:25%;
+  }
+#center{
+  display: table-cell;
+  margin:0 auto;
+  width:50%;
+}
+
+.date-dd {
+	font-family: "Century Gothic";
+	font-weight: 600;
+	position: relative;
+	overflow: visible;
+  width: 50%;
+  padding: 10px;
+  display: block;
+  margin: 0 auto;
+}
+
+.formdiv {
+  position:relative;
+  float: inline-start;
+  width: 50%;
+  padding: 10px;
+  display: block;
+  margin: 0 auto;
+}
+
+#start_date {
+	width: 120px;
+}
+
+#start_date option {
+	width: 120px;
+}
+
+#end_date option {
+	width: 120px;
+}
+
+#end_date {
+	width: 120px;
+}
+
+#custom-select {
+	width: 120px
+}
+
+.submit {
+  display: block;
+  margin: 0 auto;
+  text-align:center;
+}
+#oc {
+  margin-top: 25%;
+	background: beige;
+	color: #ffffff;
+	font-size: 15px;
+	padding: 8px 12px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	text-decoration: none;
+  float: right;
+}
+#home {
+  margin-top: 10%;
+	background: beige;
+	color: #ffffff;
+	font-size: 15px;
+	padding: 8px 12px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	text-decoration: none;
+  width: 100%;
+  display: inline-block;
+}
+
+#oc-link
+{
+   color:rgb(59, 59, 59);
+   text-decoration: none; 
+   background-color: none;
+   font-weight: 600;
+}
+#quit {
+	background: #cc6472;
+	color: #ffffff;
+	font-size: 15px;
+	padding: 8px 12px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	text-decoration: none;
+  float: right;
+}
+.quit-link
+{
+   color:white;
+   text-decoration: none; 
+   background-color: none;
 }
 </style>
 <meta charset="UTF-8">
-<title>Oportunitetni zaslužki/izgube</title>
+<title>Pregled tečaja</title>
 </head>
 <body>
-	<div class="center">
-		<h2>Izračun oportunitetnih zaslužkov/izgub</h2>
-		<hr>
-		<h4>
-			Zaslužek/izguba <span th:text="${valuta1}"></span>: <span
-				th:text="${first_percentage}"></span>%
-		</h4>
-		<h4>
-			Zaslužek/izguba <span th:text="${valuta2}"></span>: <span
-				th:text="${second_percentage}"></span>%
-		</h4>
-		<hr>
-		<h4>
-			Razlika <span th:text="${valuta1}"></span>/<span th:text="${valuta2}"></span>:
-			<span th:text="${first_vs_second}"></span>%
-		</h4>
-	</div>
+    <div id="container">
+        <div id="left">
+            <div id="oc">
+                <a href="javascript:history.back()">
+                    <div id="oc-link">Izračun oportunitetnih zaslužkov/izgub</div>
+                </a>
+            </div>
+            <div id="home">
+                <a href="/index">
+                    <div id="oc-link">Pregled tečajev</div>
+                </a>
+            </div>
+        </div>
+  <div id="center">
+    <h2>Izračun oportunitetnih zaslužkov/izgub</h2>
+    <p>&nbsp;</p>
+    <h5>
+        Zaslužek/izguba <span th:text="${valuta1}"></span>: <span
+            th:text="${first_percentage}"></span>%
+    </h5>
+    <h5>
+        Zaslužek/izguba <span th:text="${valuta2}"></span>: <span
+            th:text="${second_percentage}"></span>%
+    </h5>
+    <h4> </h4>
+    <p><h5>
+        Razlika <span th:text="${valuta1}"></span>/<span th:text="${valuta2}"></span>:
+        <span th:text="${first_vs_second}"></span>%
+    </h5></p>
+  </div>
+  <div id="right">
+    <div id="quit">
+      <a href="/quit">
+        <div class="quit-link">
+          Zapri aplikacijo
+        </div>
+      </a>
+    </div>
+    </div>
+</div>
 </body>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 </html>
