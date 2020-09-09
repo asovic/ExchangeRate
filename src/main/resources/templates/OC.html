@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<style>
+.center {
+	margin: auto;
+	width: 60%;
+	border: 3px solid #73AD21;
+	padding: 10px;
+}
+</style>
+<meta charset="UTF-8">
+<title>Oportunitetni stroški</title>
+</head>
+<body>
+	<div class="center">
+		<h2>Izračun oportunitetnih zaslužkov/izgub</h2>
+		<br>
+		<form th:action="@{/OCresult}" method="POST" id="form"
+			th:object="${input_params}" class="form-group">
+			<br>
+			<div class="date-dd" style="width: 200px;">
+				Začetni datum: <select id="start_date" name="start_date" size="1"
+					class="custom-select">
+					<option th:each="date : ${dates}" th:value="${date}"
+						th:utext="${date}" />
+				</select>
+			</div>
+			<br>
+			<div class="date-dd" style="width: 200px;">
+				Končni datum: <select id="end_date" name="end_date" size="1"
+					class="custom-select">
+					<option th:each="date : ${dates}" th:value="${date}"
+						th:utext="${date}" />
+				</select>
+			</div>
+			<br>
+			<div class="date-dd" style="width: 200px;">
+				Valuta 1: <select id="valuta1" name="valuta1" class="custom-select"
+					size="1">
+					<option th:each="valuta : ${valute}" th:value="${valuta}"
+						th:utext="${valuta}" />
+				</select>
+			</div>
+			<br>
+			<div class="date-dd" style="width: 200px;">
+				Valuta 2: <select id="valuta2" name="valuta2" class="custom-select"
+					size="1">
+					<option th:each="valuta : ${valute}" th:value="${valuta}"
+						th:utext="${valuta}" />
+				</select>
+			</div>
+			<br> <input type="submit" value="Submit">
+		</form>
+	</div>
+</body>
+</html>

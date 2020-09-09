@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<style type="text/css">
+.center {
+	margin: auto;
+	width: 60%;
+	border: 3px solid #73AD21;
+	padding: 10px;
+}
+
+.date-dd {
+	font-family: "Century Gothic";
+	color: #f6b72a;
+	font-weight: 600;
+	background-color: #3a5269;
+	position: relative;
+	overflow: visible;
+	height: fit-content;
+}
+
+#start_date {
+	width: 120px;
+}
+
+#start_date option {
+	width: 120px;
+}
+
+#end_date option {
+	width: 120px;
+}
+
+#end_date {
+	width: 120px;
+}
+
+a {
+	background: #cc6472;
+	color: #ffffff;
+	font-size: 15px;
+	padding: 8px 12px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	text-decoration: none;
+	display: inline-block; /* Added */
+}
+</style>
+<meta charset="UTF-8">
+<title>Pregled tečaja</title>
+</head>
+<body>
+	<div class="center">
+		<h2>Pregled tečaja izbranih valut v določenem časovnem obdobju</h2>
+		<br> <a href="/oc">Izračun oportunitetnih zaslužkov/izgub</a> <br>
+		<p th:text="${error}"></p>
+		<form th:action="@{/selected}" method="POST" id="form"
+			th:object="${input_params}" class="form-group">
+			<br>
+			<div class="date-dd" style="width: 200px;">
+				Začetni datum: <select id="start_date" name="start_date" size="1"
+					class="custom-select">
+					<option th:each="date : ${dates}" th:value="${date}"
+						th:utext="${date}" />
+				</select>
+			</div>
+			<br>
+			<div class="date-dd" style="width: 200px;">
+				Končni datum: <select id="end_date" name="end_date" size="1"
+					class="custom-select">
+					<option th:each="date : ${dates}" th:value="${date}"
+						th:utext="${date}" />
+				</select>
+			</div>
+			<br>
+			<div class="date-dd" style="width: 200px;">
+				Valute: <select id="valute" name="valute" class="custom-select"
+					multiple="multiple" size="10" required>
+					<option th:each="valuta : ${valute}" th:value="${valuta}"
+						th:utext="${valuta}" />
+				</select>
+			</div>
+			<br> <input type="submit" value="Submit">
+		</form>
+	</div>
+</body>
+</html>

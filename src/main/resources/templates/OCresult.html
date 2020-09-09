@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<style>
+.center {
+	margin: auto;
+	width: 60%;
+	border: 3px solid #73AD21;
+	padding: 10px;
+}
+</style>
+<meta charset="UTF-8">
+<title>Oportunitetni zaslužki/izgube</title>
+</head>
+<body>
+	<div class="center">
+		<h2>Izračun oportunitetnih zaslužkov/izgub</h2>
+		<hr>
+		<h4>
+			Zaslužek/izguba <span th:text="${valuta1}"></span>: <span
+				th:text="${first_percentage}"></span>%
+		</h4>
+		<h4>
+			Zaslužek/izguba <span th:text="${valuta2}"></span>: <span
+				th:text="${second_percentage}"></span>%
+		</h4>
+		<hr>
+		<h4>
+			Razlika <span th:text="${valuta1}"></span>/<span th:text="${valuta2}"></span>:
+			<span th:text="${first_vs_second}"></span>%
+		</h4>
+	</div>
+</body>
+</html>
