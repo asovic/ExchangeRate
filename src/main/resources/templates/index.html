@@ -9,6 +9,7 @@
   margin: 0 auto;
   text-align: center;
   display: flex;
+  margin-top: 20px;
   }
 #left{
   flex: 1;
@@ -103,7 +104,7 @@
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	text-decoration: none;
-  float: right;
+    float: right;
 }
 .quit-link
 {
@@ -127,7 +128,7 @@
     </div>
   </div>
   <div id="center">
-      <h2>Pregled tečaja izbranih valut<br/>v določenem časovnem obdobju</h2>
+      <h3>Pregled tečaja izbranih valut<br/>v določenem časovnem obdobju</h3>
       <div class="formdiv">
   		<form th:action="@{/selected}" method="POST" id="form"
 			th:object="${input_params}" class="form-group">
@@ -149,7 +150,7 @@
 			</div>
 			<br>
 			<div class="date-dd" style="width: 200px;">
-				Valute: <select id="valute" name="valute" class="custom-select"
+				Valute (Ctrl za izbiro večih): <select id="valute" name="valute" class="custom-select"
 					multiple="multiple" size="10" required>
 					<option th:each="valuta : ${valute}" th:value="${valuta}"
 						th:utext="${valuta}" />

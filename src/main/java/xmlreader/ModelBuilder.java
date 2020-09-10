@@ -1,84 +1,55 @@
 package xmlreader;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.springframework.stereotype.Component;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import model.DatesAndCurrency;
 import model.Tecaj;
 import model.Tecajnica;
 
 @Component
-public class ModelBuilder extends ReadXML {
+public class ModelBuilder {
 
-	NodeList seznam_tecajnic;
-	private int[] date_index = new int[2];
-
-	public int[] getStartEndIndex(String start_date, String end_date) {
-		seznam_tecajnic = readNodes();
-		for (int i = 0; i < seznam_tecajnic.getLength(); i++) {
-			Node tecajnica_d = seznam_tecajnic.item(i);
-			if (tecajnica_d.getNodeType() == Node.ELEMENT_NODE) {
-				Element tecajnica_datum = (Element) tecajnica_d;
-				if (start_date.equals(tecajnica_datum.getAttribute("datum"))) {
-					date_index[0] = i;
-				} else if (end_date.equals(tecajnica_datum.getAttribute("datum"))) {
-					date_index[1] = i;
-				} else {
-					continue;
-				}
-			}
-		}
-		return date_index;
-	}
+	private TreeMap<String, List<Tecaj>> whole_tecajnica = ReadXML.getInstance().getWholeTecajnica().getSortedTecajnica();
 
 	public DatesAndCurrency getAllDates() {
 		DatesAndCurrency dates_currency = new DatesAndCurrency();
-		seznam_tecajnic = readNodes();
-		for (int i = 0; i < seznam_tecajnic.getLength(); i++) {
-			Node tecajnica_d = seznam_tecajnic.item(i);
-			if (tecajnica_d.getNodeType() == Node.ELEMENT_NODE) {
-				Element tecajnica_datum = (Element) tecajnica_d;
-				dates_currency.addDate(tecajnica_datum.getAttribute("datum"));
-			}
+		for (String key : whole_tecajnica.keySet()) {
+			dates_currency.addDate(key);
 		}
 		return dates_currency;
 	}
 
-	public Tecajnica queryDB(String start_date, String end_date, List<String> valute) {
-		Tecajnica tecajnica = new Tecajnica();
-		getStartEndIndex(start_date, end_date);
-		for (int index = date_index[0]; index <= date_index[1]; index++) {
-			Node q_t = seznam_tecajnic.item(index);
-			if (q_t.getNodeType() == Node.ELEMENT_NODE) {
-				Element q_tecajnica = (Element) q_t;
+	public Tecajnica queryDB(String start_date, String end_date, List<String> valute) throws ParseException {
 
-				//String with date of current element
-				String datum_valute = q_tecajnica.getAttribute("datum");
-				List<Tecaj> seznam_tecajev = new ArrayList<Tecaj>();
-				NodeList tecaj = q_tecajnica.getElementsByTagName("tecaj");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");
+		Calendar c = Calendar.getInstance();
+		c.setTime(sdf.parse(end_date));
+		c.add(Calendar.DATE, 1);
+		end_date = sdf.format(c.getTime());
 
-				for (int count = 0; count < tecaj.getLength(); count++) {
-					Node node1 = tecaj.item(count);
-
-					if (node1.getNodeType() == Node.ELEMENT_NODE) {
-						Element single_tecaj = (Element) node1;
-						for (String valuta : valute) {
-							//Only add currency from the list
-							if (single_tecaj.getAttribute("oznaka").equals(valuta)) {
-								Tecaj tecaj_obj = new Tecaj(single_tecaj.getAttribute("sifra"), single_tecaj.getAttribute("oznaka"), single_tecaj.getTextContent());
-								seznam_tecajev.add(tecaj_obj);
-							}
-						}
-					}
+		SortedMap<String,List<Tecaj>> cut_out;
+		Tecajnica queryTecajnica = new Tecajnica();
+		cut_out = whole_tecajnica.subMap(start_date, end_date);
+		Set<String> keySet = cut_out.keySet();
+		for (String key : keySet) {
+			List<Tecaj> fullList = cut_out.get(key);
+			List<Tecaj> tempList = new ArrayList<Tecaj>();
+			for (Tecaj tecaj : fullList) {
+				if (valute.contains(tecaj.getOznaka())) {
+					tempList.add(tecaj);
 				}
-				tecajnica.addTecaj(datum_valute, seznam_tecajev);
 			}
+			cut_out.replace(key, tempList);
 		}
-		return tecajnica;
+		queryTecajnica.setTecajnica(cut_out);
+		return queryTecajnica;
 	}
 }
