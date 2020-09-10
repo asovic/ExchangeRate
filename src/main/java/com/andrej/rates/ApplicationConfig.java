@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import model.DatesAndCurrency;
 import model.Tecajnica;
 import xmlreader.ModelBuilder;
+import xmlreader.ReadXML;
 
 @Configuration
 public class ApplicationConfig {

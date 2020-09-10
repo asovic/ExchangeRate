@@ -1,5 +1,6 @@
 package com.andrej.rates;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -8,7 +9,7 @@ import xmlreader.ModelBuilder;
 
 public class OCcalculator {
 	
-	public double[] calculateOC(String start_date, String end_date, List<String> valute) {
+	public double[] calculateOC(String start_date, String end_date, List<String> valute) throws ParseException {
 		
 		List<Tecaj> start_date_values;
 		List<Tecaj> end_date_values;

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ExitCodeGenerator;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import graphing.Graph;
 import model.DatesAndCurrency;
+import model.Tecaj;
 import model.Tecajnica;
 import xmlreader.ModelBuilder;
 
@@ -65,9 +67,9 @@ public class RatesController {
 		RequestFilter rf = new RequestFilter();
 		if (rf.checkDateValidity(start_date, end_date)) {
 			ModelBuilder mb = new ModelBuilder();
-			tecajnica = mb.queryDB(start_date, end_date, valute);
-			model.addAttribute("graph_image", Base64.getEncoder().encodeToString(Graph.makeMeAChart(tecajnica)));
-			model.addAttribute("rezultat", tecajnica.getSortedTecajnica());
+			Map<String,List<Tecaj>> rezultat = mb.queryDB(start_date, end_date, valute).getSortedTecajnica();
+			model.addAttribute("graph_image", Base64.getEncoder().encodeToString(Graph.makeMeAChart(rezultat)));
+			model.addAttribute("rezultat", rezultat);
 			return "Result";
 		} else {
 		     model.addAttribute("error", "Please select end date past start date.");
@@ -90,7 +92,7 @@ public class RatesController {
 			@RequestParam("end_date") String end_date, 
 			@RequestParam("valuta1") String valuta1, 
 			@RequestParam("valuta2") String valuta2, 
-			Model model) {
+			Model model) throws ParseException {
 		List<String> valuti = new ArrayList<String>(Arrays.asList(valuta1, valuta2));
 		OCcalculator calc = new OCcalculator();
 		double[] result = calc.calculateOC(start_date, end_date, valuti);

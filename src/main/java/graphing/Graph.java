@@ -17,7 +17,6 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import model.Tecaj;
-import model.Tecajnica;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -28,7 +27,7 @@ import javafx.scene.layout.StackPane;
 public class Graph {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static byte[] makeMeAChart(Tecajnica tecajnica) throws IOException {
+	public static byte[] makeMeAChart(Map<String, List<Tecaj>> dataset) throws IOException {
 
 		// results: {completed, successful}
 		Boolean[] results = new Boolean[] { false, false };
@@ -50,7 +49,7 @@ public class Graph {
 				xAxis.setLabel("Datum");
 				yAxis.setLabel("Tečaj");
 
-				Map<String, List<Tecaj>> dataset = tecajnica.getSortedTecajnica();
+				//Map<String, List<Tecaj>> dataset = tecajnica.getSortedTecajnica();
 				List<String> keyList = new ArrayList<String>(dataset.keySet());
 				LineChart<String, Number> linechart = new LineChart<String, Number>(xAxis, yAxis);
 
