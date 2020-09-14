@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import graphing.Graph;
+import graphing.Plotter;
 import model.DatesAndCurrency;
 import model.Tecaj;
 import model.Tecajnica;
@@ -33,9 +33,6 @@ public class RatesController {
 
 	@Autowired
 	Tecajnica tecajnica;
-
-	@Autowired
-	ModelBuilder mb;
 	
 	private DatesAndCurrency dc;
 
@@ -64,11 +61,13 @@ public class RatesController {
 			@RequestParam("start_date") String start_date, 
 			@RequestParam("end_date") String end_date, 
 			@RequestParam("valute") List<String> valute, Model model) throws IOException, ParseException {
+		Map<String,List<Tecaj>> rezultat;
 		RequestFilter rf = new RequestFilter();
 		if (rf.checkDateValidity(start_date, end_date)) {
 			ModelBuilder mb = new ModelBuilder();
-			Map<String,List<Tecaj>> rezultat = mb.queryDB(start_date, end_date, valute).getSortedTecajnica();
-			model.addAttribute("graph_image", Base64.getEncoder().encodeToString(Graph.makeMeAChart(rezultat)));
+			rezultat = mb.queryDB(start_date, end_date, valute).getSortedTecajnica();
+			Plotter plt = new Plotter();
+			model.addAttribute("graph_image", Base64.getEncoder().encodeToString(plt.initUI(rezultat)));
 			model.addAttribute("rezultat", rezultat);
 			return "Result";
 		} else {
